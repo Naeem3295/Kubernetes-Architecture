@@ -1,0 +1,31 @@
+
+## Control Plane Components (Master Node)
+
+| Component | Role |
+|-----------|------|
+| **API Server** | Main entry point — all kubectl commands come here |
+| **Scheduler** | Decides which Worker Node a new Pod runs on |
+| **Controller Manager** | Maintains desired state, detects cluster state changes |
+| **etcd** | Distributed key-value store — stores all cluster state, health, and resource data |
+
+## Worker Node Components
+
+| Component | Role |
+|-----------|------|
+| **kubelet** | Talks to API Server, ensures Pods are running |
+| **kube-proxy** | Handles networking and traffic routing |
+| **Container Runtime** | Runs containers (Docker or containerd) |
+
+## How They Work Together
+```
+kubectl → API Server → Scheduler → kubelet → Container Runtime → Pod Running
+                   ↕
+                 etcd
+```
+
+1. You run a command via `kubectl`
+2. **API Server** receives it and saves state to **etcd**
+3. **Scheduler** decides which Node to run the Pod on
+4. **kubelet** on that Node pulls the image and starts the container
+5. **Controller Manager** watches and ensures desired state is maintained
+EOF
